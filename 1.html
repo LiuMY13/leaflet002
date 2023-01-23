@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>001</title>
+    <!-- <link rel="stylesheet" href="./leaflet/leaflet.css"/>
+    <script src="./leaflet/leaflet.js"></script>
+    <script src="./leaflet-src.esm.js"></script>
+    <script src="./leaflet-src.esm.js.map"></script>
+    <script src="./leaflet-src.js"></script>
+    <script src="./leaflet-src.js.map"></script>
+    <script src="d:\src\layer\Layer.js"></script> -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" 
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+</head>
+
+<style>
+    #mapid{ height: 400px }
+    #mapid2{ 
+        height: 400px ;
+        position: relative;
+        border: 3px;
+        border-color: red;
+    }
+</style>
+<body>
+    <div id="mapid"></div>
+    <div id="mapid2"></div>
+    <input type="button" id="circle" value="绘制圆" onclick="drawCircle()" />
+	<input type="button" value="绘制多边形" onclick="drawPolygon()">
+    <input type="button" id="clear" value="清除圆形" onclick="removeCircle()"/>
+	<input type="button" id="clear" value="清除多边形" onclick="removePolygon()"/>
+	<input type="button" id="clearAll" value="全部清除" onclick="removeAll()" />
+
+
+</body>
+
+<script>
+     var mymap = L.map('mapid').setView([31.82658, 117.23344], 11);
+     L.tileLayer('http://wprd0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=7',
+     {
+         subdomains: '1234',
+     }, {
+         maxZoom: 18//最大缩放
+     }).addTo(mymap);
+ 
+    var mymap2 = L.map('mapid2').setView([31.82658, 117.23344], 13);;
+    L.tileLayer('http://wprd0{s}.is.autonavi.com/appmaptile?x={x}&y={y}&z={z}&lang=zh_cn&size=1&scl=1&style=7',
+    {
+          subdomains: '1234',
+    }, {
+          maxZoom: 18//最大缩放
+    }).addTo(mymap2);
+    mymap2.dragging.disable();
+
+      var scale = L.control.scale({maxWidth:200,metric:true,imperial:false}).addTo(mymap);
+
+
+    //圆形
+    var circle = L.circle([31.82658, 117.23344], {
+        color: 'red',
+        fillColor: '#f03',
+        fillOpacity: 0.5,
+        radius: 500
+    }).addTo(mymap);
+
+    var greenIcon = new L.Icon({
+        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+    });
+ 
+
+    
+    var marker1 = L.marker([31.82658, 117.23344]).addTo(mymap).bindPopup("a大厦").openPopup()
+    var marker2 = L.marker([31.8, 117.2]).addTo(mymap).bindPopup("b大厦").openPopup();
+    var marker3 = L.marker([31.8265, 117.23354]).addTo(mymap).bindPopup("c大厦").openPopup();
+    var marker4 = L.marker([31.85668, 117.23244]).addTo(mymap).bindPopup("d大厦").openPopup();
+    var marker5 = L.marker([31.86678, 117.237]).addTo(mymap).bindPopup("e大厦").openPopup();
+    var marker6 = L.marker([31.87223, 117.22]).addTo(mymap).bindPopup("f大厦").openPopup();
+    var marker7 = L.marker([31.85345, 117.2321]).addTo(mymap).bindPopup("g大厦").openPopup();
+    var marker8 = L.marker([31.80546, 117.23224]).addTo(mymap).bindPopup("h大厦").openPopup();
+    var marker9 = L.marker([31.81345, 117.23347]).addTo(mymap).bindPopup("i大厦").openPopup();
+
+
+    var marker21 = L.marker([31.82658, 117.23344]).addTo(mymap2).bindPopup("a大厦").openPopup();
+    var marker22 = L.marker([31.8, 117.2]).addTo(mymap2).bindPopup("b大厦").openPopup();
+    var marker23 = L.marker([31.8265, 117.23354]).addTo(mymap2).bindPopup("c大厦").openPopup();
+    var marker24 = L.marker([31.85668, 117.23244]).addTo(mymap2).bindPopup("d大厦").openPopup();
+    var marker25 = L.marker([31.86678, 117.237]).addTo(mymap2).bindPopup("e大厦").openPopup();
+    var marker26 = L.marker([31.87223, 117.22]).addTo(mymap2).bindPopup("f大厦").openPopup();
+    var marker27 = L.marker([31.85345, 117.2321]).addTo(mymap2).bindPopup("g大厦").openPopup();
+    var marker28 = L.marker([31.80546, 117.23224]).addTo(mymap2).bindPopup("h大厦").openPopup();
+    var marker29 = L.marker([31.81345, 117.23347]).addTo(mymap2).bindPopup("i大厦").openPopup();
+
+</script>
+<script>
+    //读取点击位置坐标并返回其经纬度
+    // function onMapClick(e) { alert("You clicked the map at " + e.latlng); }
+    //r用来存储半径，i用来存储圆心经纬度
+    //tempCircle是用来存放圆的图层，pop用来返回圆半径的弹窗
+    var r ;
+    var i;
+    var tempCircle ;
+    var pop;
+    //移除圆图层
+    function removeCircle(){
+        mymap.removeLayer(tempCircle);
+    }
+    //绘制圆
+    function drawCircle(){
+    //在绘制圆之前需要先判断是否已经绘制过了，如果有，则清空再绘制
+    //如果需要绘制多个圆，则不必此句
+        if(tempCircle){
+            removeCircle();
+        }
+        if(tempLines){
+                    removePolygon();
+        }
+        r = 0;
+        i = null;
+        tempCircle = new L.circle();
+        mymap.dragging.disable();//将mousemove事件移动地图禁用
+        //监听鼠标落下事件
+        mymap.on('mousedown', onmouseDown);
+        
+        function onmouseDown(e) {
+            //确定圆心
+            i = e.latlng
+            pop=L.popup().setLatLng(e.latlng);
+            mymap.addLayer(pop);
+            //监听鼠标移动事件
+            mymap.on('mousemove', onMove);
+            //监听鼠标弹起事件
+            mymap.on('mouseup', onmouseUp);
+        }
+        function onMove(e) {
+            r = L.latLng(e.latlng).distanceTo(i);//计算半径
+            if(r<5000){
+                if (i) {
+                    //绘制圆心位置与半径
+                    tempCircle.setLatLng(i)
+                    tempCircle.setRadius(r)
+                    tempCircle.setStyle({ color: '#ff0000',  fillOpacity: 0 })
+                    mymap.addLayer(tempCircle)
+                }
+                //toFixed()方法用来保留两位小数（四舍五入）
+                pop.setContent("绘制圆半径为："+r.toFixed(2)+"米"+i.toString());;
+            }else{
+                r=5000;
+                //pop.setContent("最大半径只能选择5000");;
+                if (i) {
+                    tempCircle.setLatLng(i)
+                    tempCircle.setRadius(r)
+                    tempCircle.setStyle({ color: '#ff0000',  fillOpacity: 0 })
+                    mymap.addLayer(tempCircle)
+                }
+                pop.setContent("最大半径只能选择5000"+"绘制圆半径为："+r+"米"+i.latlng.toString());;
+            }
+            // mymap2 = L.map('mapid2').setView(i.latLng, 13);
+
+        }
+        function onmouseUp(e) {
+            /* r = L.latLng(e.latlng).distanceTo(i); */
+            mymap.removeLayer(pop);
+            L.circle(i, { radius: r, color: '#ff0000',  fillOpacity: 0 });
+            mymap.addLayer(tempCircle);
+            mymap.dragging.enable();
+            
+            mymap.setView(i,13);
+            //e.latlng.lng,e.latlng.lat
+            
+            mymap2.setView(i,14);
+            // if((marker1.latLng.lng<=(i.latLng.lng+r))&&(marker1.latLng.lng>=(i.latLng.lng-r))&&(marker1.latLng.lag<=(i.latLng.lag+r))&&(marker1.latLng.lng>=(i.latLng.lng-r)))
+            // {
+            //     var marker11 = L.marker([31.82658, 117.23344]).addTo(mymap2).bindPopup("a大厦").openPopup()
+            // }
+            i = null;
+            r = 0;
+
+        
+
+           //取消监听事件
+           mymap.off('mousedown');
+           mymap.off('mouseup');
+           mymap.off('mousemove');
+
+        }			
+    }
+    //移除所有图层(包括圆和多边形)
+    function removeAll() {
+        removePolygon()
+        removeCircle()
+    }
+</script>
+<script>
+    //动态绘制多边形
+            var points, geometry,lines,tempLines,node;
+            function drawPolygon(){
+                if(tempCircle){
+                    removeCircle();
+                }
+                if(tempLines){
+                    removePolygon();
+                }
+                mymap.doubleClickZoom.disable();
+                lines = new L.polyline([]);
+                tempLines = new L.polyline([],{ dashArray: 5 });
+                points = [];
+                geometry = [];
+                mymap.on('click', onClick);    //点击地图
+                mymap.on('dblclick', onDoubleClick);
+                mymap.on('mousemove', onMove)//双击地图
+                
+                function onClick(e) {
+                    points.push([e.latlng.lat, e.latlng.lng])
+                    lines.addLatLng(e.latlng)
+                    mymap.addLayer(tempLines)
+                    mymap.addLayer(lines)
+                    node=L.circle(e.latlng, { color: '#ff0000', fillColor: 'ff0000', fillOpacity: 1 })
+                    mymap.addLayer(node)
+                    geometry.push(node)
+                    var c;
+                    c = e.latlng
+                    mymap2.setView(c,13);
+                }
+                function onMove(e) {
+                    if (points.length > 0) {
+                        ls = [points[points.length - 1], [e.latlng.lat, e.latlng.lng], points[0]]
+                        tempLines.setLatLngs(ls)
+                        // map.addLayer(tempLines)
+                    }
+                }
+                function onDoubleClick(e) {
+                    geometry.push(L.polygon(points).addTo(mymap))
+                    points = [];
+                    node=null;
+                    mymap.off('click', onClick);    //点击地图
+                    mymap.off('dblclick', onDoubleClick);
+                    mymap.off('mousemove', onMove)//双击地图
+                    mymap.doubleClickZoom.enable();
+                    //isInPolygon(marker);
+                }
+            }
+            function removeCircle(){
+                mymap.removeLayer(tempCircle);
+            }
+            function removePolygon(){
+                for(let ooo of geometry){
+                    ooo.remove();
+                }
+                mymap.removeLayer(lines);
+                mymap.removeLayer(tempLines);
+            }
+     
+    </script>
+
+
+
+
+</html>
